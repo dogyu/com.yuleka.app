@@ -24,7 +24,7 @@ before_install:
   - chmod +x gradlew
 
 before_deploy:
-  - zip -r com.yuleka.app *
+  - zip -r com.yuleka.app.zip *
   - mkdir -p deploy
   - mv com.yuleka.app.zip deploy/com.yuleka.app.zip
 
