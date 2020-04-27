@@ -14,12 +14,6 @@ cache:
 
 script: "./gradlew clean build"
 
-  # CI 실행완료시 메일로 알림
-notifications:
-  email:
-    recipients:
-      - dydqud@gmail.com
-
 before_install:
   - chmod +x gradlew
 
@@ -57,3 +51,9 @@ deploy:
 
     region: ap-northeast-2
     wait-until-deployed: true
+
+  # CI 실행완료시 메일로 알림
+notifications:
+  email:
+    recipients:
+      - dydqud@gmail.com
