@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form  action="/board/post" method="post">
+    제목 : <input type="text" name="title"> <br>
+    작성자 : <input type="text" name="writer"> <br>
+    <textarea name="content"></textarea><br>
+
+    <input type="submit" value="등록">
+</form>
+<script>
+
+function randomString() {
+    var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+    var string_length = 15;
+    var randomstring = '';
+    for (var i=0; i<string_length; i++) {
+    var rnum = Math.floor(Math.random() * chars.length);
+    randomstring += chars.substring(rnum,rnum+1);
+    }
+
+    //document.randform.randomfield.value = randomstring;
+    return randomstring;
+}
+    var main = {
+    init : function () {
+        document.forms[0].title.value = randomString();
+        document.forms[0].writer.value = randomString().substring(0,5);
+        document.forms[0].content.value = randomString();
+    }
+};
+
+main.init();
+
+
+</script>
+</body>
+</html>

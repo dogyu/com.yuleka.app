@@ -1,0 +1,50 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>스프링 부트 웹 서비스</title>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+
+<script>
+var winCached = $(window),
+  docCached = $(document)
+
+var currLeng = 0;
+
+function addContent() {
+  dettachScrollEvent();
+  setTimeout(function() { //this timeout simulates the delay from the ajax post
+    for (var i = currLeng; i < currLeng + 100; i++)
+      $('div').append(i + '<br />');
+    currLeng = i;
+    console.log("called loader!");
+    attachScrollEvent();
+  }, 500);
+
+}
+
+function infiNLoader() {
+    alert(winCached.scrollTop() + winCached.height() + " : " + (docCached.height() - 300));
+  if (winCached.scrollTop() + winCached.height() > docCached.height() - 300) {
+    addContent();
+    //alert("near bottom! Adding more dummy content for infinite scrolling");
+  }
+}
+
+function attachScrollEvent() {
+
+  winCached.scroll(infiNLoader);
+}
+
+function dettachScrollEvent() {
+  winCached.unbind('scroll', infiNLoader);
+}
+addContent();
+</script>
+<div></div>
+</body>
+</html>

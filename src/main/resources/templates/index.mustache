@@ -1,6 +1,64 @@
 {{>layout/header}}
 
-<h1>버전  체크{{projectVer}}</h1>
+<div class="container">
+    {{#posts}}
+    <div class="post" id="post_{{id}}">
+        <h1>{{title}}</h1>
+        <p>
+            {{content}}
+        </p>
+        <a href="#" target="_blank" class="more">More</a>
+    </div>
+    <input type="hidden" id="row" value="0">
+    <input type="hidden" id="all" value="16">
+    {{/posts}}
+</div>
+<script>
+var winCached = $(window),
+  docCached = $(document)
 
-<button type="button" id="btn-save">등록</button>
+var currLeng = 0;
+
+function addContent() {
+  dettachScrollEvent();
+  setTimeout(function() { //this timeout simulates the delay from the ajax post
+
+    var row = Number($('#row').val());
+    var allcount = Number($('#all').val());
+    var rowperpage = 3;
+    row = row + rowperpage;
+
+    if(row <= allcount){
+        $('#row').val(row);
+        $.ajax({
+            url: 'fetch_data',
+            type: 'post',
+            data: {row:row},
+            success: function(response){
+                $(".post:last").after(response).show().fadeIn("slow");
+            }
+        });
+    }
+    attachScrollEvent();
+  }, 500);
+
+}
+
+function infiNLoader() {
+  if (winCached.scrollTop() + winCached.height() > docCached.height() - 300) {
+    addContent();
+    //alert("near bottom! Adding more dummy content for infinite scrolling");
+  }
+}
+
+function attachScrollEvent() {
+
+  winCached.scroll(infiNLoader);
+}
+
+function dettachScrollEvent() {
+  winCached.unbind('scroll', infiNLoader);
+}
+addContent();
+</script>
 {{>layout/footer}}
