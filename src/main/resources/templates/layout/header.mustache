@@ -7,8 +7,27 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
 <body>
+
 <div style="position:relative;float:left;width:50%;">
     <div id="scroll" style="position:absolute;top:0px;left:0px;">
         <div id="scrollval" style="font-size: 3em; color:red; background:black">따라갑시다.</div>
     </div>
 </div>
+
+<script>
+
+   $("document").ready(function() {
+
+    $(window).scroll(function()
+    {
+        $('#scroll').animate({top:$(window).scrollTop()+"px" },{queue: false, duration: 350});
+    });
+
+    $('#scroll').click(function()
+    {
+        $('#scroll').animate({ top:"+=60px",opacity:0 }, "slow");
+    })
+
+});
+
+</script>

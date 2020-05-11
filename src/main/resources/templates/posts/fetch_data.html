@@ -1,0 +1,6 @@
+<div class="post" th:each="board : ${posts}">
+    <!--<h1 th:text="${board.title}"></h1>-->
+    <!--<p th:text="${board.content}"></p>-->
+    <h1 class="title"><a href="#" th:text="${board.title}"></a></h1>
+    <p class="content"><a href="#"><img th:src="@{/img/} + ${#strings.substring(board.content, #strings.length(board.content)-1, 10)} + .jpg"><span class="date" th:text="${board.content}"></span></a></p>
+</div>

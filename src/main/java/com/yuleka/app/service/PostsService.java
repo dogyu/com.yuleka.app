@@ -7,15 +7,15 @@ import com.yuleka.app.web.dto.PostsResponseDto;
 import com.yuleka.app.web.dto.PostsSaveReqeustDto;
 import com.yuleka.app.web.dto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class PostsService {
@@ -23,7 +23,7 @@ public class PostsService {
     private final PostsRepository postsRepository;
 
     private static final int BLOCK_PAGE_NUM_COUNT = 5;
-    private static final int PAGE_POST_COUNT = 4;
+    private static final int PAGE_POST_COUNT = 14;
 
     @Transactional
     public Long save(PostsSaveReqeustDto requestDto) {
@@ -46,7 +46,6 @@ public class PostsService {
     public List<PostsListResponseDto> findAllDesc(Integer pageNum) {
         /*int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
         pageable = PageRequest.of(page, 10);*/
-
         return postsRepository.findAllDesc(PageRequest.of(pageNum - 1, PAGE_POST_COUNT ))
                 .stream()
                 .map(PostsListResponseDto::new)
@@ -54,7 +53,7 @@ public class PostsService {
     }
 
     @Transactional
-    public Long getBoardCount() {
+    public Long getPostCount() {
         return postsRepository.count();
     }
 
@@ -62,7 +61,7 @@ public class PostsService {
         Integer[] pageList = new Integer[BLOCK_PAGE_NUM_COUNT];
 
         // 총 게시글 갯수
-        Double postsTotalCount = Double.valueOf(this.getBoardCount());
+        Double postsTotalCount = Double.valueOf(this.getPostCount());
 
         // 총 게시글 기준으로 계산한 마지막 페이지 번호 계산 (올림으로 계산)
         Integer totalLastPageNum = (int)(Math.ceil((postsTotalCount/PAGE_POST_COUNT)));
@@ -81,5 +80,16 @@ public class PostsService {
         }
 
         return pageList;
+    }
+
+    public Integer getPageCount() {
+
+        // 총 게시글 갯수
+        Double postsTotalCount = Double.valueOf(this.getPostCount());
+
+        // 총 게시글 기준으로 계산한 마지막 페이지 번호 계산 (올림으로 계산)
+        Integer totalLastPageNum = (int) (Math.ceil((postsTotalCount / PAGE_POST_COUNT)));
+
+        return totalLastPageNum;
     }
 }

@@ -4,6 +4,7 @@ import com.yuleka.app.domain.entity.BoardEntity;
 import com.yuleka.app.domain.repository.BoardRepository;
 import com.yuleka.app.dto.BoardDto;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @AllArgsConstructor
 @Service
 public class BoardService {
@@ -25,6 +27,8 @@ public class BoardService {
 
     @Transactional
     public List<BoardDto> getBoardlist(Integer pageNum) {
+        log.info(">>>>>> " + pageNum);
+
         Page<BoardEntity> page = boardRepository.findAll(PageRequest.of(pageNum - 1, PAGE_POST_COUNT, Sort.by(Sort.Direction.ASC, "createdDate")));
 
         List<BoardEntity> boardEntities = page.getContent();

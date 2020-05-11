@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>스프링 부트 웹 서비스</title>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+    <!--<link rel="stylesheet" th:href="@{/css/style.css}">-->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <style type="text/css">
+	/* Common */
+	html, body, h1, p, a {padding:0;margin:0;line-height:1} img {border: 0}
+
+	/* Style */
+	div.post {position:relative;}
+	div.post a {text-decoration: none}
+	h1.title {position:absolute;z-index:1;left:15px;bottom:45px}
+	h1.title a{font-size:1.5em;font-weight:bold;color:#fff;}
+	h1.title a:hover, h1.title a:focus {text-decoration:underline;}
+	p.content a {font-size:1.5em;color:#ccc;}
+	span.date {position:absolute;display:block;left:15px;bottom:15px;width:80%;height:25px;padding:35px 0 5px 5px;background:url('/img/blackOpacity.png') repeat;}
+
+	.container {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .container .post {
+      width: 50%;
+    }
+
+    .container img {
+      width: calc(100% - (10px * 2));
+      margin: 10px;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="post" th:each="board : ${posts}">
+        <h1 class="title"><a href="#" th:text="${board.title}"></a></h1>
+        <p class="content"><a href="#"><img th:src="@{/img/} + ${#strings.substring(board.content, #strings.length(board.content)-1, 10)} + .jpg"><span class="date" th:text="${board.content}"></span></a></p>
+    </div>
+    <input type="hidden" id="row" value="1"><!-- 현재 페이지 -->
+    <input type="hidden" id="all" th:value="${pageCount}"><!-- 전체 페이지 수 -->
+
+</div>
+<div id="loading" style="position: fixed; bottom: 0; width: 100%; display:none; background:white;">
+    <p>
+        <img src="img/loading.gif" alt="Loading…" style="display: block; margin: 0px auto;" />
+    </p>
+</div>
+<script>
+
+var winCached = $(window);
+var docCached = $(document);
+
+var currLeng = 0;
+
+function addContent() {
+   $('#scrollval').text(parseInt(winCached.scrollTop() + winCached.height()) +  "  : " + (docCached.height() - 300));
+
+   dettachScrollEvent();
+
+   setTimeout(function() {
+
+   var row = Number($('#row').val());          // 현재 페이지 1
+   var allcount = Number($('#all').val());     // 페이지 수 3
+   var rowperpage = 1;
+   row = ++row;
+   $('#row').val(row);
+
+   if(row <= allcount){
+       $('#loading').show();
+
+       $.ajax({
+           url: 'fetch_data',
+           type: 'post',
+           data: {page:row},
+           success: function(response){
+               $('#loading').hide();
+               $(".post:last").after(response).show().fadeIn("slow");
+           }
+       });
+   }
+   attachScrollEvent();
+   }, 500);
+}
+
+function infiNLoader() {
+    if (winCached.scrollTop() + winCached.height() > docCached.height() - 300) {
+        addContent();
+    }
+}
+
+function attachScrollEvent() {
+    winCached.scroll(infiNLoader);
+}
+
+function dettachScrollEvent() {
+    winCached.unbind('scroll', infiNLoader);
+}
+
+function init() {
+    attachScrollEvent();
+}
+
+init();
+</script>
+
+</body>
+</html>

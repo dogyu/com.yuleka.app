@@ -5,60 +5,71 @@
     <div class="post" id="post_{{id}}">
         <h1>{{title}}</h1>
         <p>
+            <img src="/img/1.jpg">
             {{content}}
         </p>
         <a href="#" target="_blank" class="more">More</a>
     </div>
-    <input type="hidden" id="row" value="0">
-    <input type="hidden" id="all" value="16">
     {{/posts}}
+    <input type="hidden" id="row" value="1"><!-- 현재 페이지 -->
+    <input type="hidden" id="all" value="{{pageCount}}"><!-- 전체 페이지 수 -->
 </div>
+
 <script>
-var winCached = $(window),
-  docCached = $(document)
+
+var winCached = $(window);
+var docCached = $(document);
 
 var currLeng = 0;
 
 function addContent() {
-  dettachScrollEvent();
-  setTimeout(function() { //this timeout simulates the delay from the ajax post
+   $('#scrollval').text(parseInt(winCached.scrollTop() + winCached.height()) +  "  : " + (docCached.height() - 300));
 
-    var row = Number($('#row').val());
-    var allcount = Number($('#all').val());
-    var rowperpage = 3;
-    row = row + rowperpage;
+   dettachScrollEvent();
 
-    if(row <= allcount){
-        $('#row').val(row);
-        $.ajax({
-            url: 'fetch_data',
-            type: 'post',
-            data: {row:row},
-            success: function(response){
-                $(".post:last").after(response).show().fadeIn("slow");
-            }
-        });
-    }
-    attachScrollEvent();
-  }, 500);
+   setTimeout(function() {
 
+   var row = Number($('#row').val());          // 현재 페이지 1
+   var allcount = Number($('#all').val());     // 페이지 수 3
+   var rowperpage = 1;
+   row = ++row;
+   $('#row').val(row);
+
+   if(row <= allcount){
+       $('#loading').show();
+
+       $.ajax({
+           url: 'fetch_data',
+           type: 'post',
+           data: {page:row},
+           success: function(response){
+               $('#loading').hide();
+               $(".post:last").after(response).show().fadeIn("slow");
+           }
+       });
+   }
+   attachScrollEvent();
+   }, 500);
 }
 
 function infiNLoader() {
-  if (winCached.scrollTop() + winCached.height() > docCached.height() - 300) {
-    addContent();
-    //alert("near bottom! Adding more dummy content for infinite scrolling");
-  }
+    if (winCached.scrollTop() + winCached.height() > docCached.height() - 300) {
+        addContent();
+    }
 }
 
 function attachScrollEvent() {
-
-  winCached.scroll(infiNLoader);
+    winCached.scroll(infiNLoader);
 }
 
 function dettachScrollEvent() {
-  winCached.unbind('scroll', infiNLoader);
+    winCached.unbind('scroll', infiNLoader);
 }
-addContent();
+
+function init() {
+    attachScrollEvent();
+}
+
+init();
 </script>
 {{>layout/footer}}
