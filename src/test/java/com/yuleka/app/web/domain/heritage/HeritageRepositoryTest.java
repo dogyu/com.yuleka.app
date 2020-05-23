@@ -24,7 +24,7 @@ public class HeritageRepositoryTest {
         heritageRepository.deleteAll();
     }
 
-    @Test
+    //@Test
     public void 게시글저장_불러오기() {
 
         String title = "테스크 게시글";
