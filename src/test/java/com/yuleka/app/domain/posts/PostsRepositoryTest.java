@@ -13,7 +13,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
-
+@SpringBootTest
 public class PostsRepositoryTest {
 
     @Autowired
@@ -24,7 +24,7 @@ public class PostsRepositoryTest {
         postsRepository.deleteAll();
     }
 
-    @Test
+    //@Test
     public void 게시글저장_불러오기() {
         String title = "테스트 게시글";
         String content = "테스트 본문";
@@ -42,7 +42,7 @@ public class PostsRepositoryTest {
         assertThat(posts.getContent()).isEqualTo(content);
     }
 
-    @Test
+    //@Test
     public void BaseTimeEntity_등록() {
 
         LocalDateTime now = LocalDateTime.of(2019,6,4,0,0,0);
