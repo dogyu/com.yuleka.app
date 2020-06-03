@@ -24,6 +24,7 @@ public class IndexController {
 
         List<PostsListResponseDto> postsListResponseDtoList = postsService.findAllDesc(pageNum);
         Integer pageCount = postsService.getPageCount();
+        log.info(">>>>>> pageCount : " + pageCount);
 
         model.addAttribute("posts", postsListResponseDtoList);
         model.addAttribute("pageCount", pageCount);
@@ -35,7 +36,7 @@ public class IndexController {
     @PostMapping("/fetch_data")
     public String index2(Model model, @RequestParam(value="page", defaultValue = "1") Integer pageNum) {
         model.addAttribute("posts", postsService.findAllDesc(pageNum));
-
+        log.info(">>>>>> pageNum : " + pageNum);
         //return "fetch_data";
         return "posts/fetch_data.html";
     }
