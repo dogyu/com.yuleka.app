@@ -9,7 +9,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 
 @RequiredArgsConstructor
-@Controller
+//@Controller
 public class ChatController {
     private final RedisPublisher redisPublisher;
     private final ChatRoomRepository chatRoomRepository;

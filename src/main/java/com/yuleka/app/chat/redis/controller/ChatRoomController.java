@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RequiredArgsConstructor
-@Controller
+//@Controller
 @RequestMapping("/chat")
 public class ChatRoomController {
 

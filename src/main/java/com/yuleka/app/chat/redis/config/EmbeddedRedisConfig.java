@@ -1,6 +1,6 @@
 package com.yuleka.app.chat.redis.config;
 
-
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -12,8 +12,9 @@ import javax.annotation.PreDestroy;
 /**
  * 로컬 환경일경우 내장 레디스가 실행된다.
  */
-@Profile("local")
-@Configuration
+@Slf4j
+//@Profile("local")
+//@Configuration
 public class EmbeddedRedisConfig {
 
     @Value("${spring.redis.port}")
@@ -23,8 +24,11 @@ public class EmbeddedRedisConfig {
 
     @PostConstruct
     public void redisServer() {
-        redisServer = new RedisServer(redisPort);
-        redisServer.start();
+
+        if (redisServer == null || !redisServer.isActive()) {
+            redisServer = new RedisServer(redisPort);
+            redisServer.start();
+        }
     }
 
     @PreDestroy
