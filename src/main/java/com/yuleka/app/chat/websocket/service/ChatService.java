@@ -14,7 +14,7 @@ import java.util.*;
 
 @Slf4j
 @RequiredArgsConstructor
-@Service
+//@Service
 public class ChatService {
 
     private final ObjectMapper objectMapper;
