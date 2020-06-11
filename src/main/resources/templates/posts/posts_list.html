@@ -3,20 +3,22 @@
 <head>
     <title>스프링 부트 웹 서비스</title>
     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+    <meta id="viewport" name="viewport" content="width=device-width, height=device-height, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
     <!--<link rel="stylesheet" th:href="@{/css/style.css}">-->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <style type="text/css">
 	/* Common */
 	html, body, h1, p, a {padding:0;margin:0;line-height:1} img {border: 0}
+	//body {zoom:0.5}
 
 	/* Style */
 	div.post {position:relative;}
 	div.post a {text-decoration: none}
-	h1.title {position:absolute;z-index:1;left:15px;bottom:45px}
-	h1.title a{font-size:1.5em;font-weight:bold;color:#fff;}
+	h1.title {position:absolute;z-index:1;left:20px;bottom:40px}
+	h1.title a{font-size:1.0em;font-weight:bold;color:#fff;}
 	h1.title a:hover, h1.title a:focus {text-decoration:underline;}
 	p.content a {font-size:1.5em;color:#ccc;}
-	span.date {position:absolute;display:block;left:15px;bottom:15px;width:80%;height:25px;padding:35px 0 5px 5px;background:url('/img/blackOpacity.png') repeat;}
+	span.date {position:absolute;display:block;left:15px;bottom:10px;width:80%;height:25px;padding:60px 0 5px 5px;background:url('/img/blackOpacity.png') repeat;}
 
 	.container {
       display: flex;
@@ -43,16 +45,16 @@
 <body>
 <div class="container">
     <div class="post" style="width:100%">
-    <h1 class="title"><a href="#">김해문화재야행</a></h1>
-    <p class="content"><a href="#"><img src="/img/banner_1.jpg" alt="" /><span class="date">2013년02월27일 오후3:00</span></a></p>
+    <h1 class="title"><a href="/chat/room">김해문화재야행</a></h1>
+    <p class="content"><a href="/chat/room"><img src="/img/banner_1.jpg" alt="" /><span class="date">2013년02월27일 오후3:00</span></a></p>
     </div>
 </div>
 
 <div class="container">
 
     <div class="post" th:each="board : ${posts}">
-        <h1 class="title"><a href="#" th:text="${board.title}"></a></h1>
-        <p class="content"><a href="#"><img th:src="@{/img/} + ${#strings.substring(board.content, #strings.length(board.content)-1, 10)} + .jpg"><span class="date" th:text="${board.content}"></span></a></p>
+        <h1 class="title"><a href="/chat/room" th:text="${board.title}"></a></h1>
+        <p class="content"><a href="/chat/room"><img th:src="@{/img/} + ${#strings.substring(board.content, #strings.length(board.content)-1, 10)} + .jpg"><span class="date" th:text="${board.content}"></span></a></p>
     </div>
     <input type="hidden" id="row" value="1"><!-- 현재 페이지 -->
     <input type="hidden" id="all" th:value="${pageCount}"><!-- 전체 페이지 수 -->
@@ -97,7 +99,7 @@ function addContent() {
        });
    }
    attachScrollEvent();
-   }, 500);
+   }, 1000);
 }
 
 function infiNLoader() {
@@ -120,6 +122,48 @@ function init() {
 
 init();
 </script>
+<script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-messaging.js"></script>
+<!-- For an optimal experience using Cloud Messaging, also add the Firebase SDK for Analytics. -->
+<script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-analytics.js"></script>
+<script>
+    // Initialize Firebase
+    // TODO: Replace with your project's customized code snippet
+    var config = {
+        apiKey: "AIzaSyCVXq-D3IM6o82z8M06IQgFsuTpjzBIi90",
+        authDomain: "yuleka-f8737.firebaseapp.com",
+        databaseURL: "https://yuleka-f8737.firebaseio.com",
+        projectId: "yuleka-f8737",
+        storageBucket: "yuleka-f8737.appspot.com",
+        messagingSenderId: "371090927410",
+        appId: "1:371090927410:web:5b08b54855e7ae28f3f12b",
+        measurementId: "G-VDHGQNK7QS"
+    };
+    firebase.initializeApp(config);
 
+    const messaging = firebase.messaging();
+    messaging
+        .requestPermission()
+        .then(function () {
+            //MsgElem.innerHTML = "Notification permission granted."
+            console.log("Notification permission granted.");
+
+            // get the token in the form of promise
+            return messaging.getToken()
+        })
+        .then(function(token) {
+            //TokenElem.innerHTML = "token is : " + token
+            console.log("token is : " + token);
+        })
+        .catch(function (err) {
+            //ErrElem.innerHTML =  ErrElem.innerHTML + "; " + err
+            console.log("Unable to get permission to notify.", err);
+        });
+
+    messaging.onMessage(function(payload) {
+        console.log("Message received. ", payload);
+        //NotisElem.innerHTML = NotisElem.innerHTML + JSON.stringify(payload)
+    });
+</script>
 </body>
 </html>
