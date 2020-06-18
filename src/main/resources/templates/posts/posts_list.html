@@ -54,7 +54,7 @@
 
     <div class="post" th:each="board : ${posts}">
         <h1 class="title"><a href="/chat/room" th:text="${board.title}"></a></h1>
-        <p class="content"><a href="/chat/room"><img th:src="@{/img/} + ${#strings.substring(board.content, #strings.length(board.content)-1, 10)} + .jpg"><span class="date" th:text="${board.content}"></span></a></p>
+        <p class="content"><a href="/chat/room"><img th:src="@{/img/} + ${#strings.substring(board.author, #strings.length(board.author)-1, 9)} + .jpg"><span class="date" th:text="${board.content}"></span></a></p>
     </div>
     <input type="hidden" id="row" value="1"><!-- 현재 페이지 -->
     <input type="hidden" id="all" th:value="${pageCount}"><!-- 전체 페이지 수 -->
