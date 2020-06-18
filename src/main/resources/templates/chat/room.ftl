@@ -16,7 +16,7 @@
     <div class="container" id="app" v-cloak>
         <div class="row">
             <div class="col-md-6">
-                <h3>채팅방 리스트</h3>
+                <h3>지역가이드</h3>
             </div>
             <div class="col-md-6 text-right">
                 <a class="btn btn-primary btn-sm" href="/logout">로그아웃</a>
@@ -32,7 +32,7 @@
             </div>
         </div>
         <ul class="list-group">
-            <li class="list-group-item list-group-item-action" v-for="item in chatrooms" v-bind:key="item.roomId" v-on:click="enterRoom(item.roomId, item.name)">
+            <li class="list-group-item list-group-item-action" v-for="item in chatrooms" v-bind:key="item.roomId"  v-on:click="removeRoom(item.roomId, item.name)">
                 <h6>{{item.name}} <span class="badge badge-info badge-pill">{{item.userCount}}</span></h6>
             </li>
         </ul>
@@ -81,6 +81,11 @@
                     localStorage.setItem('wschat.roomId',roomId);
                     localStorage.setItem('wschat.roomName',roomName);
                     location.href="/chat/room/enter/"+roomId;
+                },
+                removeRoom: function(roomId, roomName) {alert('삭제');
+                    localStorage.setItem('wschat.roomId',roomId);
+                    localStorage.setItem('wschat.roomName',roomName);
+                    location.href="/chat/room/remove/"+roomId;
                 }
             }
         });

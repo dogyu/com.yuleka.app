@@ -63,4 +63,9 @@ public class ChatRoomRepository {
     public long minusUserCount(String roomId) {
         return Optional.ofNullable(valueOps.decrement(USER_COUNT + "_" + roomId)).filter(count -> count > 0).orElse(0L);
     }
+    // 채팅방 삭제
+    public long removeChatRoom(String roomId) {
+        Long isRoom= hashOpsChatRoom.delete(CHAT_ROOMS, roomId);
+        return isRoom;
+    }
 }

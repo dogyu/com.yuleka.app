@@ -47,6 +47,12 @@ public class ChatRoomController {
         return "/chat/roomdetail";
     }
 
+    @GetMapping("/room/remove/{roomId}")
+    public String roomRemove(Model model, @PathVariable String roomId) {
+        chatRoomRepository.removeChatRoom(roomId);
+        return "/chat/room";
+    }
+
     @GetMapping("/room/{roomId}")
     @ResponseBody
     public ChatRoom roomInfo(@PathVariable String roomId) {
