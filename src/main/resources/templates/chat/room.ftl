@@ -32,7 +32,7 @@
             </div>
         </div>
         <ul class="list-group">
-            <li class="list-group-item list-group-item-action" v-for="item in chatrooms" v-bind:key="item.roomId"  v-on:click="removeRoom(item.roomId, item.name)">
+            <li class="list-group-item list-group-item-action" v-for="item in chatrooms" v-bind:key="item.roomId"  v-on:click="enterRoom(item.roomId, item.name)">
                 <h6>{{item.name}} <span class="badge badge-info badge-pill">{{item.userCount}}</span></h6>
             </li>
         </ul>
@@ -82,7 +82,7 @@
                     localStorage.setItem('wschat.roomName',roomName);
                     location.href="/chat/room/enter/"+roomId;
                 },
-                removeRoom: function(roomId, roomName) {alert('삭제');
+                removeRoom: function(roomId, roomName) {
                     localStorage.setItem('wschat.roomId',roomId);
                     localStorage.setItem('wschat.roomName',roomName);
                     location.href="/chat/room/remove/"+roomId;
