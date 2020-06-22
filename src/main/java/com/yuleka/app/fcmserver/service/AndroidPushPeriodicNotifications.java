@@ -14,7 +14,8 @@ public class AndroidPushPeriodicNotifications {
         LocalDate localDate = LocalDate.now();
 
         String sampleData[] = {"dwyHBsPKwnM:APA91bHMKn6V5Lgah4MoXhb8toM6fNjD3UO91zsppa_JqDRxUhgAk80qiNQsP_j_24wzviT3tSI14Y92KLitU1qlzyIO9CzkV24B5oxUQ7IZuMvuaRY_4UaVeydaYSKLPZNiOA7_JECe"
-        ,"fkg-HpePMsA:APA91bFYYbCqhzRa9NthUcBe1KoVOyJp6WMGJyzeGXW2N0AKYY8vVZ1aSVaLwhDlu_rfdR4hYY-xDb8B1RlQrZEctUXVsqY_C5wu6nV_1BTp9GA5riJwkmAS2MmLlf4TSI82b0oPL95U"};
+        ,"c1ZG65PeIckjgTbp4WDpT5:APA91bHhfONLc27qoG_z31cvORbUtpOSUZNEzKdy05LXkrZUcv2TK3M5_IpA3wEtgB1DyPm8TLrov1QokCfJBJbxZJKvYvroSN6XDzz5Dmo4VKkqgcqz-GU9K5aKS6wu0jE8q0GKu4ZJ"
+        ,"dUZUPEHTVr6V0eo8-Ag0qJ:APA91bGXEbuESu-8PCAVHEyK1tpsWvb3ZLcav_mZKlPP7qbHu_el3M8YmjOu8fXovgr-qVcQnF1WXFjkZ_pARcY7qlxSvkpsxubr4OKGkiA2DTCrQDJ3XaMxpHlbbL0cE6oqeGI38oJW"};
 
         JSONObject body = new JSONObject();
 
