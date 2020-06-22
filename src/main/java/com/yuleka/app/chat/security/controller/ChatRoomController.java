@@ -27,6 +27,11 @@ public class ChatRoomController {
         return "/chat/room";
     }
 
+    @GetMapping("/room/del")
+    public String roomDel(Model model) {
+        return "/chat/room_del";
+    }
+
     @GetMapping("/rooms")
     @ResponseBody
     public List<ChatRoom> room() {
